@@ -104,17 +104,6 @@ def evaluate(env, policy, action_rep, log, episodes=100):
         epioside_sum_times.append(env.sum_time)
         returns.append(total_reward)
         finished_list.append(env.finished)
-        # greedy_objectives.append(greedy_objective)
-    # print("---------------------------------------")
-    # print(
-    #     f"Evaluation over {episodes} episodes: {np.array(returns[-100:]).mean():.3f} "
-    #     f"episode_steps: {np.array(epioside_steps[-100:]).mean():.3f}")
-    # print("---------------------------------------")
-    # print("Whole Time:", np.array(epioside_times[-100:]).mean())
-    # print("Sum Time:", np.array(epioside_sum_times[-100:]).mean())
-    # print("task_finished_ratio:", np.array(task_finished_ratios[-100:]).mean())
-    # print("objective:", np.array(objectives[-100:]).mean())
-    # print("greedy objective:", np.array(greedy_objectives[-100:]).mean())
     log.logger.info(str(np.array(returns[-episodes:]).mean()) + " " +
                     str(np.array(returns[-episodes:]).min()) + " " +
                     str(np.array(returns[-episodes:]).max()) + " " +
@@ -129,13 +118,6 @@ def evaluate(env, policy, action_rep, log, episodes=100):
 
 
 def run(args, discrete_emb, parameter_emb):
-    file_name = f"{args.policy}_{args.env}_{args.seed}"
-    print("---------------------------------------")
-    print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}")
-    print("---------------------------------------")
-
-    if not os.path.exists("./results"):
-        os.makedirs("./results")
     time_env = simpy.Environment()
     s1 = CircleScenario('s1', env=time_env)
     env = TestWorld(s1)
@@ -155,26 +137,12 @@ def run(args, discrete_emb, parameter_emb):
     print("state_dim", state_dim)
     print("discrete_action_dim", discrete_action_dim)
     print("parameter_action_dim", parameter_action_dim)
-    kwargs = {
-        "state_dim": state_dim,
-        "discrete_action_dim": discrete_emb_dim,
-        "parameter_action_dim": parameter_emb_dim,
-        "max_action": max_action,
-        "discount": args.discount,
-        "tau": args.tau,
-    }
+    kwargs = {"state_dim": state_dim, "discrete_action_dim": discrete_emb_dim,
+              "parameter_action_dim": parameter_emb_dim, "max_action": max_action, "discount": args.discount,
+              "tau": args.tau, "policy_noise": args.policy_noise * max_action,
+              "noise_clip": args.noise_clip * max_action, "policy_freq": args.policy_freq}
+    policy = TD3.TD3(**kwargs)
 
-    # Initialize policy
-    if args.policy == "P-TD3":
-        # Target policy smoothing is scaled wrt the action scale
-        kwargs["policy_noise"] = args.policy_noise * max_action
-        kwargs["noise_clip"] = args.noise_clip * max_action
-        kwargs["policy_freq"] = args.policy_freq
-        policy = TD3.TD3(**kwargs)
-    elif args.policy == "OurDDPG":
-        policy = OurDDPG.DDPG(**kwargs)
-    elif args.policy == "DDPG":
-        policy = DDPG.DDPG(**kwargs)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # data log
@@ -258,7 +226,6 @@ def run(args, discrete_emb, parameter_emb):
             episode_reward = 0.
             for j in range(max_steps):
                 sample_count += 1
-                action_tmp_1 = tuple(action_tmp)
                 ret = env.step(action_tmp)
                 next_state, reward, terminal = ret
                 next_state = np.array(next_state, dtype=np.float32, copy=False)
@@ -369,7 +336,6 @@ def run(args, discrete_emb, parameter_emb):
             cur_step = cur_step + 1
             ret = env.step(action)
             next_state, reward, terminal = ret
-            # print("terminal",terminal,1-terminal)
             next_state = np.array(next_state, dtype=np.float32, copy=False)
             state_next_state = next_state - state
             discrete_emb = discrete_emb.detach().numpy()
