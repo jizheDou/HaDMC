@@ -57,7 +57,7 @@ This system offers the following key functionalities:
 
 ## Model Architecture
 
-- ![fig-OverallArchitecture](img/fig-OverallArchitecture.jpg)
+![fig-OverallArchitecture](img/fig-OverallArchitecture.jpg)
 
 ## Simulation Environment
 
