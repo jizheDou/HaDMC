@@ -53,11 +53,11 @@ This system offers the following key functionalities:
 
 ## File Structure
 
-![HaDMC](img\HaDMC.svg)
+![HaDMC](img/HaDMC.svg)
 
 ## Model Architecture
 
-- ![fig-OverallArchitecture](img\fig-OverallArchitecture.jpg)
+- ![fig-OverallArchitecture](img/fig-OverallArchitecture.jpg)
 
 ## Simulation Environment
 
