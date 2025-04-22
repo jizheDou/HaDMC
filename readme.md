@@ -4,7 +4,7 @@
 
 Firstly, this project implements the simulated interacting environment and reinforcement learning control algorithm model named HaDMC, proposed in "Scheduling Drone and Mobile Charger via Hybrid-Action Deep Reinforcement Learning". 
 
-The paper is published in IEEE Transactions on Mobile Computing, and its link is [Scheduling Drone and Mobile Charger via Hybrid-Action Deep Reinforcement Learning | IEEE Journals & Magazine | IEEE Xplore](https://ieeexplore.ieee.org/document/10925829) .
+The paper was published in IEEE Transactions on Mobile Computing, and its link is [Scheduling Drone and Mobile Charger via Hybrid-Action Deep Reinforcement Learning | IEEE Journals & Magazine | IEEE Xplore](https://ieeexplore.ieee.org/document/10925829) .
 
 The project facilitates collaboration between Unmanned Aerial Vehicle (UAV) and charger. The system utilizes reinforcement learning models and simulation environments to assist users in managing UAV and charger to complete observation tasks at designated locations. UAVs are extensively employed for observation in forests, oceans, and national parks. The introduction of charger offers essential charging support for UAV, significantly enhancing their endurance and operational duration, improving work efficiency, and broadening application scenarios.
 
@@ -92,4 +92,5 @@ Training logs are printed in the terminal during execution. Additionally, you ca
 
 ## Contact
 
-For any issues or questions, please contact the project maintainer: doujizhe@bjfu.edu.cn
+For any issues or questions, please contact the project maintainer: doujizhe@bjfu.edu.cn. 
+Thank Yang Luo(luoyang@bjfu.edu.cn) for writing this document.
